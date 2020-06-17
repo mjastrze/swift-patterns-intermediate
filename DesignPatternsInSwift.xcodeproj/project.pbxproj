@@ -64,6 +64,31 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		3EA6B5E72499DFFF000E0227 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				5D23FD2519D23F9B003F5F4E /* Shape.swift */,
+			);
+			name = Model;
+			sourceTree = "<group>";
+		};
+		3EA6B5E82499E23D000E0227 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				5D23FD1F19D21CB4003F5F4E /* GameView.swift */,
+				5D23FD2319D223C0003F5F4E /* ShapeView.swift */,
+			);
+			name = View;
+			sourceTree = "<group>";
+		};
+		3EA6B5E92499E37D000E0227 /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				5D23FD0119D21A02003F5F4E /* GameViewController.swift */,
+			);
+			name = Controller;
+			sourceTree = "<group>";
+		};
 		5D23FCF119D21A02003F5F4E = {
 			isa = PBXGroup;
 			children = (
@@ -88,12 +113,11 @@
 			isa = PBXGroup;
 			children = (
 				5D23FCFF19D21A02003F5F4E /* AppDelegate.swift */,
-				5D23FD1F19D21CB4003F5F4E /* GameView.swift */,
-				5D23FD0119D21A02003F5F4E /* GameViewController.swift */,
-				5D23FD2519D23F9B003F5F4E /* Shape.swift */,
-				5D23FD2319D223C0003F5F4E /* ShapeView.swift */,
-				6A6728F919EE21B60026F8C9 /* Utils.swift */,
+				3EA6B5E92499E37D000E0227 /* Controller */,
+				3EA6B5E72499DFFF000E0227 /* Model */,
 				5D23FCFD19D21A02003F5F4E /* Supporting Files */,
+				6A6728F919EE21B60026F8C9 /* Utils.swift */,
+				3EA6B5E82499E23D000E0227 /* View */,
 			);
 			path = DesignPatternsInSwift;
 			sourceTree = "<group>";
