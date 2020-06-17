@@ -12,6 +12,11 @@ class GameViewController: UIViewController {
 
   override func viewDidLoad() {
     super.viewDidLoad()
+    
+    // 1 ***** ADDITION
+    shapeViewFactory = SquareShapeViewFactory(size: gameView.sizeAvailableForShapes())
+    shapeFactory = SquareShapeFactory(minProportion: 0.3, maxProportion: 0.8)
+
     beginNextTurn()
   }
 
@@ -22,26 +27,20 @@ class GameViewController: UIViewController {
   }
 
   private func beginNextTurn() {
-    let shape1 = SquareShape()
-    shape1.sideLength = Utils.randomBetweenLower(lower: 0.3, andUpper: 0.8)
-    let shape2 = SquareShape()
-    shape2.sideLength = Utils.randomBetweenLower(lower: 0.3, andUpper: 0.8)
-
-    let availSize = gameView.sizeAvailableForShapes()
-    let shapeView1: ShapeView = SquareShapeView(frame: CGRect(x: 0, y: 0, width: availSize.width * shape1.sideLength, height: availSize.height * shape1.sideLength))
-    shapeView1.shape = shape1
-    let shapeView2: ShapeView = SquareShapeView(frame: CGRect(x: 0, y: 0, width: availSize.width * shape2.sideLength, height: availSize.height * shape2.sideLength))
-    shapeView2.shape = shape2
-    let shapeViews = (shapeView1, shapeView2)
+    // 2 ***** ADDITION
+    let shapes = shapeFactory.createShapes()
+    let shapeViews = shapeViewFactory.makeShapeViewsForShapes(shapes: shapes)
 
     shapeViews.0.tapHandler = {
       tappedView in
-      self.gameView.score += shape1.sideLength >= shape2.sideLength ? 1 : -1
+      let square1 = shapes.0 as! SquareShape, square2 = shapes.1 as! SquareShape
+      self.gameView.score += square1.sideLength >= square2.sideLength ? 1 : -1
       self.beginNextTurn()
     }
     shapeViews.1.tapHandler = {
       tappedView in
-      self.gameView.score += shape2.sideLength >= shape1.sideLength ? 1 : -1
+      let square1 = shapes.0 as! SquareShape, square2 = shapes.1 as! SquareShape
+      self.gameView.score += square2.sideLength >= square1.sideLength ? 1 : -1
       self.beginNextTurn()
     }
 
@@ -49,4 +48,8 @@ class GameViewController: UIViewController {
   }
 
   private var gameView: GameView { return view as! GameView }
+  
+  private var shapeViewFactory: ShapeViewFactory!
+  
+  private var shapeFactory: ShapeFactory!
 }
