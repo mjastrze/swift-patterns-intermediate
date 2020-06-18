@@ -37,3 +37,25 @@ class SquareShapeFactory: ShapeFactory {
     return (shape1, shape2)
   }
 }
+
+class CircleShapeFactory: ShapeFactory {
+  var minProportion: CGFloat
+  var maxProportion: CGFloat
+
+  init(minProportion: CGFloat, maxProportion: CGFloat) {
+    self.minProportion = minProportion
+    self.maxProportion = maxProportion
+  }
+
+  func createShapes() -> (Shape, Shape) {
+    // 1
+    let shape1 = CircleShape()
+    shape1.diameter = Utils.randomBetweenLower(lower: minProportion, andUpper: maxProportion)
+
+    // 2
+    let shape2 = CircleShape()
+    shape2.diameter = Utils.randomBetweenLower(lower: minProportion, andUpper: maxProportion)
+
+    return (shape1, shape2)
+  }
+}
