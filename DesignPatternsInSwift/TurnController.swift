@@ -15,6 +15,8 @@ class TurnController {
 
   init(turnStrategy: TurnStrategy) {
     self.turnStrategy = turnStrategy
+    self.scorer = MatchScorer()
+    self.scorer.nextScorer = StreakScorer()
   }
 
   // 3
@@ -29,9 +31,10 @@ class TurnController {
     currentTurn!.turnCompletedWithTappedShape(tappedShape: tappedShape)
     pastTurns.append(currentTurn!)
 
-    let scoreIncrement = currentTurn!.matched! ? 1 : -1
+    let scoreIncrement = scorer.computeScoreIncrement(pastTurnsReversed: pastTurns.reversed())
     return scoreIncrement
   }
 
   private let turnStrategy: TurnStrategy
+  private var scorer: Scorer
 }
