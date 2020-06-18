@@ -13,16 +13,13 @@ class TurnController {
   var currentTurn: Turn?
   var pastTurns: [Turn] = [Turn]()
 
-  // 2
-  init(shapeFactory: ShapeFactory, shapeViewBuilder: ShapeViewBuilder) {
-    self.shapeFactory = shapeFactory
-    self.shapeViewBuilder = shapeViewBuilder
+  init(turnStrategy: TurnStrategy) {
+    self.turnStrategy = turnStrategy
   }
 
   // 3
   func beginNewTurn() -> (ShapeView, ShapeView) {
-    let shapes = shapeFactory.createShapes()
-    let shapeViews = shapeViewBuilder.buildShapeViewsForShapes(shapes: shapes)
+    let shapeViews = turnStrategy.makeShapeViewsForNextTurnGivenPastTurns(pastTurns: pastTurns)
     currentTurn = Turn(shapes: [shapeViews.0.shape, shapeViews.1.shape])
     return shapeViews
   }
@@ -36,6 +33,5 @@ class TurnController {
     return scoreIncrement
   }
 
-  private let shapeFactory: ShapeFactory
-  private var shapeViewBuilder: ShapeViewBuilder
+  private let turnStrategy: TurnStrategy
 }
