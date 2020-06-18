@@ -14,11 +14,15 @@ class GameViewController: UIViewController {
     super.viewDidLoad()
     
     // 1 ***** ADDITION
-    //shapeViewFactory = SquareShapeViewFactory(size: gameView.sizeAvailableForShapes())
-    //shapeFactory = SquareShapeFactory(minProportion: 0.3, maxProportion: 0.8)
-    shapeViewFactory = CircleShapeViewFactory(size: gameView.sizeAvailableForShapes())
-    shapeFactory = CircleShapeFactory(minProportion: 0.3, maxProportion: 0.8)
-
+    shapeViewFactory = SquareShapeViewFactory(size: gameView.sizeAvailableForShapes())
+    shapeFactory = SquareShapeFactory(minProportion: 0.3, maxProportion: 0.8)
+//    shapeViewFactory = CircleShapeViewFactory(size: gameView.sizeAvailableForShapes())
+//    shapeFactory = CircleShapeFactory(minProportion: 0.3, maxProportion: 0.8)
+    shapeViewBuilder = ShapeViewBuilder(shapeViewFactory: shapeViewFactory)
+    shapeViewBuilder.fillColor = UIColor.brown
+    shapeViewBuilder.outlineColor = UIColor.orange
+    turnController = TurnController(shapeFactory: shapeFactory, shapeViewBuilder: shapeViewBuilder)
+    
     beginNextTurn()
   }
 
@@ -29,20 +33,14 @@ class GameViewController: UIViewController {
   }
 
   private func beginNextTurn() {
-    // 2 ***** ADDITION
-    let shapes = shapeFactory.createShapes()
-    let shapeViews = shapeViewFactory.makeShapeViewsForShapes(shapes: shapes)
+    let shapeViews = turnController.beginNewTurn()
 
     shapeViews.0.tapHandler = {
       tappedView in
-      self.gameView.score += shapes.0.area >= shapes.1.area ? 1 : -1
+      self.gameView.score += self.turnController.endTurnWithTappedShape(tappedShape: tappedView.shape)
       self.beginNextTurn()
     }
-    shapeViews.1.tapHandler = {
-      tappedView in
-      self.gameView.score += shapes.1.area >= shapes.0.area ? 1 : -1
-      self.beginNextTurn()
-    }
+    shapeViews.1.tapHandler = shapeViews.0.tapHandler
 
     gameView.addShapeViews(newShapeViews: shapeViews)
   }
@@ -52,4 +50,8 @@ class GameViewController: UIViewController {
   private var shapeViewFactory: ShapeViewFactory!
   
   private var shapeFactory: ShapeFactory!
+  
+  private var shapeViewBuilder: ShapeViewBuilder!
+  
+  private var turnController: TurnController!
 }

@@ -19,6 +19,6 @@ class SquareShape: Shape {
 }
 
 class CircleShape: Shape {
-    var diameter: CGFloat!
+  var diameter: CGFloat!
   override var area: CGFloat { return CGFloat(Double.pi) * diameter * diameter / 4.0 }
 }
